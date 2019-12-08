@@ -17,36 +17,63 @@
 ### 一.程序中类的定义  
 1.架构与最开始的程序没有什么变化，对其进行了优化，将无用成员方法去掉。People作为父类，Student和Teacher继承了People类。
 2.People类包含属性id,name,sex。其子类除其父类包含属性外，Student包含Course类对象，需要将课程对象传进成员方法进行传递。Teacher包含属性teachcour。  
+
+
+
 ### 二.界面
-本次系统大幅度升级，加入了登录界面，主界面，选课界面，退课界面，添加课程界面。
+本次系统大幅度升级，加入了登录界面，主界面，选课界面，退课界面，添加课程界面。  
+
+
+
 ##### 1.登录界面  
+
 ![登录界面](https://github.com/liyuanyao27/xuankezongheshiyan/blob/master/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191208095752.png?raw=true)  
+
+
 登陆界面内有两个文本输入框，三个按钮，运用了监听器，当按下登录后可以读取已注册的账户，判断密码和账号是否匹配。注册账号即用此用户名和密码进行注册。  
-```		btn1.addActionListener(new ActionListener(){
+```				
+		btn1.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
 		if(tf2.getText().trim().length()==0||ps.getText().length()==0){
-			JOptionPane.showMessageDialog(null, "用户名密码不允许为空");
+			JOptionPane.showMessageDialog(null, "用户名或密码为空");
 			return;}
-		if(file.readFile("Admin").contains(tf2.getText()+","+ps.getText())){
+		if(file.readFile("user").contains(tf2.getText()+","+ps.getText())){
 			file.writeFile("identify",tf2.getText());
 			JOptionPane.showMessageDialog(null, "登录成功");
 			Frame_index choice=new Frame_index();
 			setVisible(false);}
-		if(file.readFile("Admin").contains(ps.getText())==false&&file.readFile("Admin").contains(tf2.getText())) {
-			JOptionPane.showMessageDialog(null, "密码错误");}
-		if(file.readFile("Admin").contains(tf2.getText())==false) {
-			JOptionPane.showMessageDialog(null, "用户名不存在，请先注册再进行登录！");}}});
+		if(file.readFile("user").contains(ps.getText())==false&&file.readFile("user").contains(tf2.getText())) {
+			JOptionPane.showMessageDialog(null, "密码错误");
+		}
+		if(file.readFile("user").contains(tf2.getText())==false && tf2.getText().equals("Admin")==false) {
+			JOptionPane.showMessageDialog(null, "用户名不存在，请先注册再进行登录！");
+		}
+		if(tf2.getText().equals("Admin")&&ps.getText().equals("Admin")){
+			AddCourse print=new AddCourse();}}
 ```
 上面的程序是我的登录按钮监听器，当点击登录按钮后会与***Admin***文件中已保存的用户名和密码进行比较。若有相同的则转到下一个界面，既主界面  
+
+
 `Frame_index choice=new Frame_index();`  
+在这里我还设定了一个管理员用户和密码为都***Admin***，当满足此条件时，我们可以对课程进行新加。  
+```		if(tf2.getText().equals("Admin")&&ps.getText().equals("Admin")){
+			AddCourse print=new AddCourse();}}
+```  
+
+当成功时会出现以下界面：  
+
+
+
 注册很简单，只要写入文件即可。  
-![登录成功](https://github.com/liyuanyao27/xuankezongheshiyan/blob/master/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191208095902.png?raw=true "登陆成功")
+
+
+![登录成功](https://github.com/liyuanyao27/xuankezongheshiyan/blob/master/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191208095902.png?raw=true "登陆成功")  
 
 
 
 ##### 2.主界面
 主界面的设计很简单，运用绝对位置把四个按钮分为东南东北西北西南四个位置，在位置上放上按钮。  
-![系统主页面](https://github.com/liyuanyao27/xuankezongheshiyan/blob/master/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191208095922.png?raw=true)
+![系统主页面](https://github.com/liyuanyao27/xuankezongheshiyan/blob/master/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191208095922.png?raw=true)  
 这部分编程比较简单只需要创界页面，在页面添加按钮，给四个按钮添加上监听器即可。举其中一例  
 ```		JButton btn1=new JButton("学生选课");
 		btn1.setBounds(36, 56, 138, 88);
@@ -55,7 +82,7 @@
 			ChoiseCourse choice=new ChoiseCourse();
 			}
 		});
-```
+```  
 上述程序为学生选课按钮（西北按钮）一例，创建对象后创建监听器，当按钮有动作后会创建新的对象，选课窗口会被打开。  
 
 
@@ -123,7 +150,7 @@
 ![打印课表2](https://github.com/liyuanyao27/xuankezongheshiyan/blob/master/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191208100812.png?raw=true)
 
 ##### 6.添加课程界面  
-
+在文章开头时只能用管理员账号密码登入才会有显示的界面。  
 ![添加课程](https://github.com/liyuanyao27/xuankezongheshiyan/blob/master/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191208101244.png?raw=true)  
 图片如上，非常简单，加入TextArea即可，按钮有两个，一个确认添加，一个退出界面。限制输入我认为用异常处理过于麻烦，判断异常后抛出异常，再catch异常，不如直接用if语句限制输入，简洁方便。
 ```
